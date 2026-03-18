@@ -1,0 +1,127 @@
+<div class="dashboard">
+  <div class="page-header">
+    <h1 class="page-title">Dashboard</h1>
+    @if (summary) {
+      <span class="today-date">
+        <mat-icon>calendar_today</mat-icon>
+        {{ todayFormatted }}
+      </span>
+    }
+  </div>
+
+  @if (loading) {
+    <div class="loading-container">
+      <mat-spinner diameter="48"></mat-spinner>
+      <p>Loading dashboard...</p>
+    </div>
+  } @else if (error) {
+    <mat-card class="error-card">
+      <mat-card-content>
+        <mat-icon color="warn">error</mat-icon>
+        <p>{{ error }}</p>
+      </mat-card-content>
+    </mat-card>
+  } @else if (summary) {
+    <!-- Today's Attendance -->
+    <h3 class="section-title">Today's Attendance</h3>
+    <div class="stats-grid today-grid">
+      <mat-card class="stat-card today-card">
+        <mat-card-content>
+          <div class="stat-icon today-present">
+            <mat-icon>check_circle</mat-icon>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value">{{ summary.today_present }}</span>
+            <span class="stat-label">Present Today</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card today-card">
+        <mat-card-content>
+          <div class="stat-icon today-absent">
+            <mat-icon>cancel</mat-icon>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value">{{ summary.today_absent }}</span>
+            <span class="stat-label">Absent Today</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Overall Stats -->
+    <h3 class="section-title">Overall Summary</h3>
+    <div class="stats-grid">
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-icon employees">
+            <mat-icon>people</mat-icon>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value">{{ summary.total_employees }}</span>
+            <span class="stat-label">Total Employees</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-icon records">
+            <mat-icon>assignment</mat-icon>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value">{{ summary.total_attendance_records }}</span>
+            <span class="stat-label">Attendance Records</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-icon present">
+            <mat-icon>check_circle</mat-icon>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value">{{ summary.total_present }}</span>
+            <span class="stat-label">Total Present</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-icon absent">
+            <mat-icon>cancel</mat-icon>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value">{{ summary.total_absent }}</span>
+            <span class="stat-label">Total Absent</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    @if (summary.departments.length > 0) {
+      <mat-card class="departments-card">
+        <mat-card-header>
+          <mat-card-title>Departments</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <table mat-table [dataSource]="summary.departments" class="dept-table">
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Department</th>
+              <td mat-cell *matCellDef="let dept">{{ dept.name }}</td>
+            </ng-container>
+            <ng-container matColumnDef="count">
+              <th mat-header-cell *matHeaderCellDef>Employees</th>
+              <td mat-cell *matCellDef="let dept">{{ dept.count }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="['name', 'count']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['name', 'count']"></tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    }
+  }
+</div>

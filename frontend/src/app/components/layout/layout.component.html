@@ -1,0 +1,30 @@
+<div class="layout-container">
+  <mat-toolbar color="primary" class="toolbar">
+    <mat-icon class="toolbar-icon">business</mat-icon>
+    <span class="toolbar-title">HRMS Lite</span>
+    <span class="toolbar-spacer"></span>
+    <span class="toolbar-subtitle">Human Resource Management</span>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav mode="side" opened class="sidenav">
+      <mat-nav-list>
+        @for (item of navItems; track item.path) {
+          <a mat-list-item
+             [routerLink]="item.path"
+             routerLinkActive="active-link"
+             class="nav-item">
+            <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+            <span matListItemTitle>{{ item.label }}</span>
+          </a>
+        }
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="content">
+      <div class="page-content">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
